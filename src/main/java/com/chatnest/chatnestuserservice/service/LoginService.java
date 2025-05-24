@@ -10,7 +10,6 @@ import com.chatnest.chatnestuserservice.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -29,7 +28,6 @@ public class LoginService {
         if (user == null) {
             throw new RuntimeException("User not found");
         }
-
         // check if the password is correct or not
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BusinessException("Invalid password");
@@ -38,10 +36,8 @@ public class LoginService {
         //
         user.setLastLoginTime(LocalDateTime.now());
         userMapper.updateLoginTime(user.getId(), user.getLastLoginTime());
-
         // generate token
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
-
         // return the LoginResponse
         LoginResponse response = new LoginResponse();
         response.setUserId(user.getId());
