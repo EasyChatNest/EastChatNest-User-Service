@@ -33,9 +33,10 @@ public class LoginService {
             throw new BusinessException("Invalid password");
         }
 
-        //
+        // generate from the backend
         user.setLastLoginTime(LocalDateTime.now());
         userMapper.updateLoginTime(user.getId(), user.getLastLoginTime());
+
         // generate token
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getRole());
         // return the LoginResponse
@@ -44,6 +45,7 @@ public class LoginService {
         response.setUsername(user.getUsername());
         response.setNickname(user.getNickname());
         response.setRole(user.getRole());
+        //  set the JWT Token
         response.setToken(token);
         return response;
     }

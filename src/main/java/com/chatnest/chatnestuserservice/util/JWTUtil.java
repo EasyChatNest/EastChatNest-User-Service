@@ -1,24 +1,30 @@
 package com.chatnest.chatnestuserservice.util;
-
-
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JWTUtil {
 
-    // 建议从配置文件注入
-    private final String secretKey = "my_super_secret_key_1234567890abcdef"; // 至少 32 位
-    private final long expirationMs = 86400000; // 1 天
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-    private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    @Value("${jwt.expiration}")
+    private long expirationMs;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     /**
-     * 生成 token
+     * Generate token
      */
     public String generateToken(Long userId, String username, String role) {
         return Jwts.builder()
@@ -32,7 +38,7 @@ public class JWTUtil {
     }
 
     /**
-     * 验证 token 是否有效
+     * check if the  token valid
      */
     public boolean validateToken(String token) {
         try {

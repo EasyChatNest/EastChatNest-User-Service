@@ -3,6 +3,7 @@ package com.chatnest.chatnestuserservice.controller;
 import com.chatnest.chatnestuserservice.dto.Request.LoginRequest;
 import com.chatnest.chatnestuserservice.dto.Request.RegisterRequest;
 import com.chatnest.chatnestuserservice.dto.Response.LoginResponse;
+import com.chatnest.chatnestuserservice.dto.Response.LogoutResponse;
 import com.chatnest.chatnestuserservice.dto.Response.RegisterResponse;
 import com.chatnest.chatnestuserservice.service.LoginService;
 import com.chatnest.chatnestuserservice.service.RegisterService;
@@ -29,6 +30,13 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         return loginService.login(request);
+    }
+
+    @PostMapping("/logout")
+    public LogoutResponse logout(){
+        // has to be changed
+        return new LogoutResponse();
+
     }
 
 
