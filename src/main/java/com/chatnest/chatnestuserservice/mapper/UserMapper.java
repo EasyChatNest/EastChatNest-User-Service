@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 @Mapper
 public interface UserMapper {
 
-    // 根据用户名查找
+    // find the user by username
     User findByUsername(@Param("username") String username);
 
-    // 根据邮箱查找
+    // find the user by email
     User findByEmail(@Param("email") String email);
 
-    // 插入新用户（注册）
+    // Insert user
     void insertUser(User user);
 
-    // 更新最后登录时间（登录时使用，可选）
+    // last sign in time
     void updateLoginTime(@Param("userId") Long userId, @Param("loginTime") LocalDateTime loginTime);
 }
