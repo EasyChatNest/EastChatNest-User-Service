@@ -2,7 +2,6 @@ package com.chatnest.chatnestuserservice.mapper;
 import com.chatnest.chatnestuserservice.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import java.time.LocalDateTime;
 
 @Mapper
