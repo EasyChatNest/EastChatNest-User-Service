@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chatnest.chatnestuserservice.mapper.UserMapper">
+
+    <!-- select user by username -->
+    <select id="findByUsername" resultType="com.chatnest.chatnestuserservice.entity.User">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <!-- select user by email -->
+    <select id="findByEmail" resultType="com.chatnest.chatnestuserservice.entity.User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
+    <!-- register user -->
+    <insert id="insertUser" parameterType="com.chatnest.chatnestuserservice.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (
+            username, email, phone, password, nickname,
+            avatar_url, gender, status, role, region,
+            signature, login_type, created_at, updated_at
+        )
+        VALUES (
+                   #{username}, #{email}, #{phone}, #{password}, #{nickname},
+                   #{avatarUrl}, #{gender}, #{status}, #{role}, #{region},
+                   #{signature}, #{loginType}, #{createdAt}, #{updatedAt}
+               )
+    </insert>
+
+    <!-- Update the last using Time -->
+    <update id="updateLoginTime">
+        UPDATE user SET last_login_time = #{loginTime} WHERE id = #{userId}
+    </update>
+
+</mapper>
