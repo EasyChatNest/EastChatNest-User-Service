@@ -1,0 +1,23 @@
+CREATE TABLE user (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+
+    nickname VARCHAR(50),
+    avatar_url VARCHAR(255),
+    gender VARCHAR(10),
+    status VARCHAR(20) DEFAULT 'active',
+
+    role VARCHAR(20) DEFAULT 'user',
+    region VARCHAR(50),
+    signature VARCHAR(255),
+    login_type INT DEFAULT 0,
+
+    last_login_time DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
