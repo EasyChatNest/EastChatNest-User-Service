@@ -1,43 +1,54 @@
 package com.chatnest.chatnestuserservice.service;
 
-
+import com.chatnest.chatnestuserservice.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
-/**
- *  Aimed to check if the validation code sent to the targeted email is valid or not
- *
- *
- */
 @Service
 public class SendVerifyCodeService {
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisUtils redisUtils;
 
-    // send a code to the targeted email
+    private static final String PREFIX = "verify:";
 
-    public String sendCode(String email) {
-        return "hello";
+    /**
+     * 发送验证码：生成验证码并保存到 Redis
+     */
+    public void sendCode(String email) {
+        String code = generateCode();
+        String key = PREFIX + email;
+
+        // save it into Redis，lasting 5 mins
+        redisUtils.set(key, code, 5);
+
+        // 此处你可以加上发送邮件逻辑，比如用 MailService.send(email, code)
+        System.out.println("Email has been sent to user");
+
     }
 
-
-    // save the code in redis
-    //    redisTemplate.opsForValue().set(key, code, 5,TimeUnit.MINUTES);
-
-
-    // compare if the code is same or not
-
+    /**
+     * 校验验证码是否正确
+     */
     public boolean verifyCode(String email, String inputCode) {
+        String key = PREFIX + email;
+        String realCode = redisUtils.get(key);
 
+        // 验证码匹配
+        if (realCode != null && realCode.equals(inputCode)) {
+            redisUtils.delete(key); // 验证成功后删除
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
+    /**
+     *
+     * Generate a random code
+     */
     private String generateCode() {
         return String.format("%06d", new Random().nextInt(999999));
     }
