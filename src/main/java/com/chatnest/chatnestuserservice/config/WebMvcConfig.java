@@ -1,14 +1,25 @@
 package com.chatnest.chatnestuserservice.config;
 
+import com.chatnest.chatnestuserservice.config.JwtInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- *
- *
- * JwtInterceptor 是一个“请求拦截器”，
- * 它在请求到达你的 Controller 之前，先检查请求里有没有合法的 JWT Token，
- * 并提取出用户身份信息（比如 userId）供你后续使用。
- */
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private JwtInterceptor jwtInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns("/api/user/**") // 需要拦截的路径
+                .excludePathPatterns(
+                        "/api/user/login",
+                        "/api/user/register",
+                        "/api/user/sendCode"
+                ); // 不需要拦截的路径
+    }
 }
