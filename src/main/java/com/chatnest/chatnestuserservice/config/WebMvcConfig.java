@@ -1,6 +1,5 @@
 package com.chatnest.chatnestuserservice.config;
 
-
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -11,6 +10,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 并提取出用户身份信息（比如 userId）供你后续使用。
  */
 public class WebMvcConfig implements WebMvcConfigurer {
-
 
 }
